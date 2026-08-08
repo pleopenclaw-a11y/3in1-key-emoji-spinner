@@ -203,6 +203,9 @@ function showHelp() {
 }
 
 if(helpBtn) helpBtn.addEventListener('click', showHelp);
+if(closeBtn) closeBtn.addEventListener('click', () => {
+    if(helpModal) helpModal.style.display = 'none';
+});
 
 // --- NEW: Donate Modal ---
 function showDonateModal() {
