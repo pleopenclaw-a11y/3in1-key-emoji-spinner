@@ -11,7 +11,8 @@ const urlsToCache = [
   './script.js',
   './manifest.json',
   './icon-192x192.png', // ไอคอนที่มึงสร้าง
-  './icon-512x512.png'  // ไอคอนที่มึงสร้าง
+  './icon-512x512.png', // ไอคอนที่มึงสร้าง
+  './qrcode.js'
   // เพิ่มไฟล์อื่นๆ ที่จำเป็น เช่น รูปภาพอื่นๆ, Font ที่โหลดเอง (ถ้ามี)
   // พวกไฟล์จาก CDN (Firebase SDK, Font Awesome) อาจจะไม่ต้อง Cache เองก็ได้ ให้ Browser จัดการ
 ];
@@ -68,6 +69,9 @@ self.addEventListener('activate', (event) => {
 // เกิดขึ้นทุกครั้งที่มี Request เกิดขึ้นจากหน้าเว็บ (โหลดรูป, CSS, JS, API)
 // เราจะดัก Request แล้วเช็คว่ามีใน Cache มั้ย (Cache-First Strategy)
 self.addEventListener('fetch', (event) => {
+  // Let third-party resources (if any) use the browser network directly.
+  // The app's QR generation is local, so no external QR API should be intercepted.
+  if (new URL(event.request.url).origin !== self.location.origin) return;
   // console.log('[Service Worker] Fetching:', event.request.url);
   event.respondWith(
     caches.match(event.request) // ลองหา Request นี้ใน Cache
@@ -102,7 +106,7 @@ self.addEventListener('fetch', (event) => {
             console.error('[Service Worker] Fetch failed:', error);
             // อาจจะส่งหน้า Offline fallback กลับไปก็ได้
             // return caches.match('./offline.html'); // ต้องสร้างไฟล์ offline.html ไว้ด้วย
-            // หรือแค่ปล่อยให้มัน Error ไปตามปกติ
+            return new Response('', { status: 503, statusText: 'Offline' });
         });
       })
   );

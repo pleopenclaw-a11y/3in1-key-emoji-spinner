@@ -235,6 +235,31 @@ window.addEventListener('click', (event) => {
 // --- NEW: Logic for creating QR Code (inside the modal) ---
 const myPromptpayId = '0616164179';
 
+function crc16(payload) {
+  let crc = 0xFFFF;
+  for (let i = 0; i < payload.length; i++) {
+    crc ^= payload.charCodeAt(i) << 8;
+    for (let bit = 0; bit < 8; bit++) {
+      crc = (crc & 0x8000) ? ((crc << 1) ^ 0x1021) & 0xFFFF : (crc << 1) & 0xFFFF;
+    }
+  }
+  return crc.toString(16).toUpperCase().padStart(4, '0');
+}
+
+function emvField(id, value) {
+  return `${id}${String(value.length).padStart(2, '0')}${value}`;
+}
+
+function createPromptPayPayload(target, amount) {
+  const mobile = target.replace(/^0/, '0066');
+  const merchantAccount = emvField('00', 'A000000677010111') + emvField('01', mobile);
+  let payload = emvField('00', '01') + emvField('01', '12') + emvField('29', merchantAccount);
+  payload += emvField('53', '764') + emvField('54', Number(amount).toFixed(2));
+  payload += emvField('58', 'TH');
+  payload += '6304';
+  return payload + crc16(payload);
+}
+
 function updateQrCode() {
   if (!donateAmountInput || !qrImage || !qrAmountDisplay || !qrResultArea || !qrInstruction) {
     console.error("QR Code modal elements not found!");
@@ -247,8 +272,14 @@ function updateQrCode() {
     return;
   }
 
-  const newQrUrl = `https://www.pp-qr.com/api/image/${myPromptpayId}/${amount}`;
-  qrImage.src = newQrUrl;
+  if (typeof qrcode !== 'function') {
+    showToast('❌ QR generator ยังโหลดไม่สำเร็จ', 4000, true);
+    return;
+  }
+  const qr = qrcode(0, 'M');
+  qr.addData(createPromptPayPayload(myPromptpayId, amount));
+  qr.make();
+  qrImage.src = qr.createDataURL(6, 0);
   qrAmountDisplay.textContent = `${amount} บาท`;
 
   qrResultArea.classList.remove('hidden');
