@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>3in1 Key-Emoji-Spinner</title>
+  <link rel="icon" type="image/png" href="./icon-192x192.png">
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-KZ1W13YWND"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-KZ1W13YWND');
+  </script>
+</head>
+<body>
+  <div class="container">
+    <div class="header-with-help">
+      <div class="brand-lockup">
+        <span class="brand-mark">🔐</span>
+        <div><h1>keykes.com</h1><p class="brand-subtitle">Private text utility</p></div>
+      </div>
+      <button id="helpBtn" class="help-btn" title="วิธีใช้จ้าาา"><i class="fas fa-question-circle"></i></button>
+    </div>
+
+    <div class="mode-instruction">
+      <i class="fas fa-hand-point-down"></i> เลือกโหมดที่ต้องการ แล้วเริ่มแปลงข้อความได้เลย
+    </div>
+
+    <div class="mode-buttons">
+      <button id="xorModeBtn" class="mode-btn"><i class="fas fa-key"></i><span><strong>Key Translator</strong><small>Encrypt with keyword</small></span></button>
+      <button id="emojiModeBtn" class="mode-btn"><i class="fas fa-smile"></i><span><strong>Emoji Code</strong><small>Convert text to emoji</small></span></button>
+      <button id="wordSpinnerModeBtn" class="mode-btn"><i class="fas fa-sync-alt"></i><span><strong>Word Spinner</strong><small>Shuffle text securely</small></span></button>
+    </div>
+
+    <div id="keywordSection" class="keyword-section">
+      <label for="keywordInput"><i class="fas fa-key"></i> Keyword</label>
+      <input type="text" id="keywordInput" placeholder="ใส่คีย์เวิร์ด... หรือเว้นว่างไว้" />
+    </div>
+
+    <div class="io-section">
+      <div class="text-panel input-panel"><label><span>INPUT BUFFER</span><small>ข้อความต้นฉบับ</small></label><textarea id="inputText" placeholder="วางหรือพิมพ์ข้อความที่นี่..."></textarea></div>
+      <div class="transform-arrow"><i class="fas fa-arrow-down"></i><span>Auto transform</span></div>
+      <div class="text-panel output-panel"><label><span>OUTPUT BUFFER</span><small>ผลลัพธ์</small></label><textarea id="outputText" placeholder="ผลลัพธ์จะแสดงที่นี่..." readonly></textarea><button id="copyButton" class="inline-copy"><i class="fas fa-copy"></i> Copy result</button></div>
+    </div>
+	
+    <div class="action-buttons">
+      <button id="clearButton"><i class="fas fa-trash"></i> Clear</button>
+    </div>
+	
+    <!-- NEW: Support Developer Trigger -->
+    <div id="supportTrigger" class="support-trigger">
+      <span>☕</span>
+      <span class="support-text">สนับสนุนผู้พัฒนา</span>
+      <span>🍺</span>
+    </div>
+
+    <div class="status-bar"><span><i class="fas fa-circle"></i> Ready</span><span>Mode: <strong id="currentModeLabel">Not selected</strong></span></div>
+    <div class="video-link">
+      📹 <a href="https://www.youtube.com/watch?v=VIDEO_ID" target="_blank">เร็วๆนี้...ดูวิดีโอการใช้งานบน YouTube</a>
+    </div>
+
+  </div> <!-- End of .container -->
+
+  <!-- Help Modal (Existing) -->
+  <div id="helpModal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn">&times;</span>
+      <h2><i class="fas fa-info-circle"></i> วิธีใช้งานแต่ละโหมด 🤓</h2>
+      <div id="helpContent">
+        <!-- Content is injected by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- NEW: Donate Modal -->
+  <div id="donateModal" class="modal">
+      <div class="modal-content">
+          <span id="donateCloseBtn" class="close-btn">&times;</span>
+          <h2><i class="fas fa-hand-holding-heart"></i> ☕ เลี้ยงกาแฟ/เบียร์ให้ผู้พัฒนา 🍻</h2>
+          
+          <div class="dynamic-amount-wrapper">
+              <input type="number" id="donateAmount" placeholder="ใส่ยอดเงิน (บาท)" min="1" value="20">
+              <button id="generateQrBtn">สร้าง QR Code</button>
+          </div>
+
+          <!-- QR Code Result Area (Initially Hidden) -->
+          <div id="qrResultArea" class="qr-result-area hidden">
+              <!-- THIS IS THE NEW LINE -->
+              <img src="./promptpay.png" alt="PromptPay Logo" class="qr-top-logo">
+              
+              <img src="" alt="PromptPay QR Code" class="qr-code-image" id="promptpayQrImage">
+              <div class="qr-info-text">
+                  <p class="qr-phone-number">0616164179</p>
+                  <p class="qr-amount" id="qrAmountDisplay"></p>
+              </div>
+          </div>
+
+          <p id="qrInstruction" class="qr-instruction">กรอกจำนวนเงิน แล้วกด "สร้าง QR Code" ได้เลย!</p>
+      </div>
+  </div>
+
+  <script src="script.js"></script>
+  <footer class="page-footer">
+    <p>พัฒนาโดย JornJud ❤️ &copy; 2025</p>
+  </footer>
+</body>
+</html>
