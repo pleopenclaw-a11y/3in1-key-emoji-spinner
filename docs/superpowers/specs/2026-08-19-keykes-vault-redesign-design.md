@@ -103,3 +103,13 @@ manifest, bump service-worker cache.
   system and animates via the same per-element transitions.
 - `sw.js` cache bumped `v2.0 → v2.1` so returning PWA users pick up the new
   assets on next load.
+
+## Remove PageAgent AI copilot (follow-up)
+- The `page-agent@1.10.0` demo IIFE (jsDelivr) and its chat panel were
+  **removed entirely** at the user's request ("เอาออกไปให้หน่อย").
+- Removed from `index.html`: the `<script>` tag, the inline panel `<style>`
+  block, and the auto-init `<script>` block; subtitle downgraded from
+  "Private text utility · AI copilot" → "Private text utility".
+- `sw.js` cache bumped `v2.1 → v2.2` for the deploy.
+- The app now has **zero** external agent/LLM dependency (the previous
+  GATEWAY API key was revoked and is no longer referenced).
