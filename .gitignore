@@ -1,0 +1,15 @@
+# Dependencies
+/node_modules
+
+# Parcel
+.parcel-cache
+/dist
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment
+.env
+.vercel
