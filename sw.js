@@ -1,6 +1,6 @@
 // sw.js - Service Worker พื้นฐานสำหรับ Cache ไฟล์
 
-const CACHE_NAME = '3in1-spinner-cache-v2.2'; // ตั้งชื่อ Cache (เปลี่ยน v1 เป็น v2, v3... ถ้ามีการอัปเดตไฟล์ Cache ครั้งใหญ่)
+const CACHE_NAME = '3in1-spinner-cache-v2.3'; // ตั้งชื่อ Cache (เปลี่ยน v1 เป็น v2, v3... ถ้ามีการอัปเดตไฟล์ Cache ครั้งใหญ่)
 
 // รายชื่อไฟล์หลักๆ ที่จะ Cache ไว้ตอนติดตั้ง Service Worker
 // ใช้ Path แบบ Relative './' เหมือนเดิม
