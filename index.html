@@ -19,35 +19,6 @@
     gtag('config', 'G-KZ1W13YWND');
   </script>
 
-  <!-- PageAgent.js — AI copilot for this page -->
-  <script src="https://cdn.jsdelivr.net/npm/page-agent@1.10.0/dist/iife/page-agent.demo.js" crossorigin="true"></script>
-
-  <style>
-    /* PageAgent panel — tuned to the Vault palette */
-    .page-agent-chat-bubble {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      z-index: 9999;
-    }
-    .pa-agent-panel {
-      background: #10161f !important;
-      color: #e6ebf2 !important;
-      border: 1px solid rgba(255,255,255,0.12) !important;
-      border-radius: 14px !important;
-      box-shadow: 0 12px 40px rgba(0,0,0,0.55) !important;
-    }
-    .pa-agent-panel input {
-      background: #0a0e14 !important;
-      color: #e6ebf2 !important;
-      border: 1px solid rgba(255,255,255,0.15) !important;
-    }
-    .pa-agent-panel button {
-      background: #22d3ee !important;
-      color: #0a0e14 !important;
-    }
-    .pa-chat-container { max-width: 400px !important; }
-  </style>
 </head>
 <body>
   <div class="container">
@@ -56,7 +27,7 @@
         <span class="brand-mark">🔐</span>
         <div>
           <h1>keykes.com</h1>
-          <p class="brand-subtitle">Private text utility · AI copilot</p>
+          <p class="brand-subtitle">Private text utility</p>
         </div>
       </div>
       <button id="helpBtn" class="icon-btn" title="วิธีใช้งาน"><i class="fas fa-question-circle"></i></button>
@@ -160,16 +131,5 @@
   <footer class="page-footer">
     <p>พัฒนาโดย JornJud ❤️ © 2026</p>
   </footer>
-
-  <!-- PageAgent initialization -->
-  <script>
-    // PageAgent runs in demo mode (free testing LLM) via page-agent.demo.js.
-    // To point it at your own LLM gateway, inject credentials at build/deploy
-    // time from .env — never hardcode API keys in this file.
-    // Add ?autoInit=false to the URL to disable auto-init.
-    window.addEventListener('DOMContentLoaded', () => {
-      console.log('🤖 PageAgent ready — ลองบอก "พิมพ์ hello ในช่อง keyword แล้วกด Key Translator"');
-    });
-  </script>
 </body>
 </html>
