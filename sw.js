@@ -1,6 +1,6 @@
 // sw.js - Service Worker พื้นฐานสำหรับ Cache ไฟล์
 
-const CACHE_NAME = '3in1-spinner-cache-v1.8'; // ตั้งชื่อ Cache (เปลี่ยน v1 เป็น v2, v3... ถ้ามีการอัปเดตไฟล์ Cache ครั้งใหญ่)
+const CACHE_NAME = '3in1-spinner-cache-v2.0'; // ตั้งชื่อ Cache (เปลี่ยน v1 เป็น v2, v3... ถ้ามีการอัปเดตไฟล์ Cache ครั้งใหญ่)
 
 // รายชื่อไฟล์หลักๆ ที่จะ Cache ไว้ตอนติดตั้ง Service Worker
 // ใช้ Path แบบ Relative './' เหมือนเดิม
@@ -12,7 +12,8 @@ const urlsToCache = [
   './manifest.json',
   './icon-192x192.png', // ไอคอนที่มึงสร้าง
   './icon-512x512.png', // ไอคอนที่มึงสร้าง
-  './qrcode.js'
+  './qrcode.js',
+  './promptpay.png'
   // เพิ่มไฟล์อื่นๆ ที่จำเป็น เช่น รูปภาพอื่นๆ, Font ที่โหลดเอง (ถ้ามี)
   // พวกไฟล์จาก CDN (Firebase SDK, Font Awesome) อาจจะไม่ต้อง Cache เองก็ได้ ให้ Browser จัดการ
 ];

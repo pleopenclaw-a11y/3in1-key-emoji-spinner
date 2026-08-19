@@ -13,6 +13,7 @@ const inputText = document.getElementById('inputText');
 const outputText = document.getElementById('outputText');
 const copyButton = document.getElementById('copyButton');
 const clearButton = document.getElementById('clearButton');
+const swapButton = document.getElementById('swapButton');
 const currentModeLabel = document.getElementById('currentModeLabel');
 
 // Help Modal Elements
@@ -49,8 +50,7 @@ function showToast(message, duration = 3000, isError = false) {
   toast.textContent = message;
   toast.className = 'toast-notification';
   if (isError) {
-    toast.classList.add('error-toast'); // Use class for styling errors
-    toast.style.backgroundColor = 'rgba(244, 67, 54, 0.85)';
+    toast.classList.add('error-toast');
   }
   document.body.appendChild(toast);
   // Animation timeout
@@ -149,6 +149,7 @@ function processCurrentMode() {
         if (currentMode === newMode) return;
         
         currentMode = newMode;
+        document.body.dataset.mode = newMode; // drives the per-mode accent color
         document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         
@@ -188,6 +189,21 @@ if(clearButton) {
     });
 }
 
+// Swap: move the output back into the input and re-process
+// (handy for encode → decode round trips)
+if(swapButton) {
+    swapButton.addEventListener('click', () => {
+        if (!outputText || !outputText.value) {
+            showToast('❓ ยังไม่มีผลลัพธ์ให้สลับ', 2000);
+            return;
+        }
+        if (inputText) inputText.value = outputText.value;
+        outputText.value = '';
+        showToast('🔁 สลับข้อความแล้ว');
+        processCurrentMode();
+    });
+}
+
 // ======== Modal Logic (Help & Donate) ========
 
 // --- Help Modal ---
@@ -196,7 +212,7 @@ function showHelp() {
     helpContent.innerHTML = `
         <div><h3><i class="fas fa-key"></i> Key Translator Mode</h3><p>ใส่ข้อความและ Keyword (หากเว้นว่างจะใช้ค่าเริ่มต้น <code>${DEFAULT_KEYWORD}</code>) ระบบจะเข้ารหัส หากข้อความที่ป้อนดูเหมือนถูกเข้ารหัสแล้ว ระบบจะพยายามถอดรหัสด้วย Keyword เดียวกัน</p></div>
         <div><h3><i class="fas fa-smile"></i> Emoji Code Mode</h3><p>แปลงตัวอักษร (ไทย, อังกฤษ, ตัวเลข, สัญลักษณ์บางตัว) เป็น Emoji หรือแปลง Emoji กลับเป็นข้อความเดิม ระบบจะคาดเดาโดยอัตโนมัติว่าควรเข้ารหัสหรือถอดรหัส</p></div>
-        <div><h3><i class="fas fa-sync-alt"></i> Word Spinner Mode</h3><p>สลับตำแหน่งตัวอักษรทั้งหมดในข้อความแบบสุ่ม พร้อมเพิ่ม Prefix <code>${DEFAULT_PREFIX}</code> และรหัส Seed 4 ตัวที่ด้านหน้า หากข้อความที่ป้อนขึ้นต้นด้วย Prefix และ Seed ระบบจะถอดรหัสกลับเป็นข้อความเดิม</p></div>
+        <div><h3><i class="fas fa-shuffle"></i> Word Spinner Mode</h3><p>สลับตำแหน่งตัวอักษรทั้งหมดในข้อความแบบสุ่ม พร้อมเพิ่ม Prefix <code>${DEFAULT_PREFIX}</code> และรหัส Seed 4 ตัวที่ด้านหน้า หากข้อความที่ป้อนขึ้นต้นด้วย Prefix และ Seed ระบบจะถอดรหัสกลับเป็นข้อความเดิม</p></div>
         <hr>
         <p style="font-size: 0.9em; color: #777;">ใช้งานได้เลย ไม่ต้องล็อกอิน 😉</p>`;
     if(helpModal) helpModal.style.display = 'block';

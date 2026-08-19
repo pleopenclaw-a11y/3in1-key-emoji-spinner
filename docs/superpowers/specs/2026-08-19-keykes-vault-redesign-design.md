@@ -23,6 +23,8 @@ manifest, bump service-worker cache.
   - `wordspinner` (Word Spinner): green `#4ade80`
 - Accent drives: active tab, focus rings, transform arrow, inline copy button,
   status dot, links, help hover. Smooth 0.35s transition on mode change.
+  (Implementation note: the transition lives on the concrete properties —
+  color/border/box-shadow — NOT on `--accent` itself; see bug note in Verification.)
 - Text: white `#f2f5f8`, muted `#8b96a8`.
 
 ## Layout (single column, max-width 720px)
@@ -43,8 +45,9 @@ manifest, bump service-worker cache.
 - All cipher/decode logic, QR donate flow, help modal, toasts, SW registration: unchanged.
 
 ## Fixes (all directions)
-- Rewrite all Thai copy with correct vowel/tone-mark ordering (current files have
-  mangled combining marks, e.g. "กรุณา" → "กรุณา").
+- Thai copy: verified by codepoint dump — source files already contain correctly
+  ordered combining marks (the read-tool rendering was misleading). New `index.html`
+  reuses the verified-correct strings; no rewrites needed.
 - Remove the `sk-...` API key from the HTML comment (security; key stays in `.env` only).
 - `manifest.json`: strict valid JSON (drop `//` comments), dark theme colors,
   name "KeyKES — Private Text Utility".
@@ -62,3 +65,11 @@ manifest, bump service-worker cache.
 - Check: all 3 modes switch + accent re-tints, swap works, encode/decode round-trip
   in each mode, help + donate modals, QR generation, no console errors.
 - Commit as `feat: ...`.
+
+## Bug found during verification (fixed)
+- `transition: --accent 0.35s ease` on `body` wedged the accent: in Chrome 144 a
+  CSSTransition on the registered custom property `--accent` starts but never
+  progresses, so `getComputedStyle(body).--accent` stayed at the default and the
+  per-mode neon accents never applied. Removed the custom-property transition;
+  the per-element `transition: color/border-color/box-shadow ...` rules already
+  animate the accent shift, so the visual effect is preserved.
