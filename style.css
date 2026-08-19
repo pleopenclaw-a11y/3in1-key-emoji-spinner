@@ -39,9 +39,10 @@ body {
   padding: 28px 16px 40px;
   font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   color: var(--text);
+  /* Whole-page ambience follows the active mode's accent (neutral gray when none). */
   background:
-    radial-gradient(1100px 560px at 50% -10%, rgba(56, 189, 248, 0.07), transparent 60%),
-    radial-gradient(900px 500px at 88% 112%, rgba(251, 191, 36, 0.05), transparent 60%),
+    radial-gradient(1100px 560px at 50% -10%, color-mix(in srgb, var(--accent) 13%, transparent), transparent 60%),
+    radial-gradient(900px 500px at 88% 112%, color-mix(in srgb, var(--accent) 8%, transparent), transparent 60%),
     var(--bg);
   /* NOTE: no `transition: --accent` here — transitioning a registered custom
      property on body can wedge the value (Chromium quirk); per-element
@@ -77,6 +78,22 @@ body::before {
   display: flex;
   flex-direction: column;
   gap: 22px;
+  transition: border-color 0.35s ease, box-shadow 0.35s ease;
+}
+/* Whole-page mode cue: with a mode active, the container frame + top edge light up in the accent */
+body[data-mode] .container {
+  border-color: color-mix(in srgb, var(--accent) 38%, transparent);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.5), 0 0 44px -8px var(--accent-glow);
+}
+body[data-mode] .container::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: 28px;
+  right: 28px;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
 }
 
 /* ---------- Header / brand ---------- */
@@ -145,6 +162,12 @@ body::before {
   text-align: center;
 }
 .mode-instruction i { color: var(--accent); font-size: 1.1em; transition: color 0.35s ease; }
+/* fa-hand-pointer aims up-right by default — rotate 135° so the finger points down at the mode buttons */
+.mode-instruction .fa-hand-pointer { transform: rotate(135deg); }
+body[data-mode] .mode-instruction {
+  border-color: color-mix(in srgb, var(--accent) 35%, transparent);
+  background: var(--accent-soft);
+}
 
 /* ---------- Mode selector (segmented) ---------- */
 .mode-buttons {
@@ -275,6 +298,10 @@ textarea:focus {
   box-shadow: 0 0 0 3px var(--accent-glow);
 }
 .output-panel textarea { padding-bottom: 52px; background: rgba(0, 0, 0, 0.25); }
+/* Subtle accent tint on the text fields while a mode is active */
+body[data-mode] .text-panel textarea {
+  border-color: color-mix(in srgb, var(--accent) 22%, var(--panel-border));
+}
 
 .transform-arrow {
   display: flex;
@@ -392,7 +419,7 @@ textarea:focus {
   margin-right: 6px;
   transition: color 0.35s ease;
 }
-.status-bar strong { color: var(--text); font-weight: 600; }
+.status-bar strong { color: var(--accent); font-weight: 700; transition: color 0.35s ease; }
 
 /* ---------- Video link ---------- */
 .video-link { text-align: center; font-size: 0.9rem; }

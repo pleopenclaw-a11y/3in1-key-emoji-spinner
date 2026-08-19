@@ -15,6 +15,7 @@ const copyButton = document.getElementById('copyButton');
 const clearButton = document.getElementById('clearButton');
 const swapButton = document.getElementById('swapButton');
 const currentModeLabel = document.getElementById('currentModeLabel');
+const modeInstructionText = document.getElementById('modeInstructionText');
 
 // Help Modal Elements
 const helpBtn = document.getElementById('helpBtn');
@@ -99,6 +100,14 @@ function updateUI() {
     if(currentModeLabel) {
         const labels = { xor: 'Key Translator', emoji: 'Emoji Code', wordspinner: 'Word Spinner' };
         currentModeLabel.textContent = labels[currentMode] || 'Not selected';
+    }
+    if(modeInstructionText) {
+        const instructions = {
+            xor: 'โหมด Key Translator — เข้ารหัส/ถอดรหัสด้วยคีย์เวิรด์',
+            emoji: 'โหมด Emoji Code — แปลงข้อความเป็นอีมอยี',
+            wordspinner: 'โหมด Word Spinner — สลับตำแหน่งตัวอักษร'
+        };
+        modeInstructionText.textContent = instructions[currentMode] || 'เลือกโหมดที่ต้องการ แล้วเริ่มแปลงข้อความได้เลย';
     }
 }
 

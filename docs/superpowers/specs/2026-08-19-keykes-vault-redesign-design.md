@@ -67,9 +67,39 @@ manifest, bump service-worker cache.
 - Commit as `feat: ...`.
 
 ## Bug found during verification (fixed)
-- `transition: --accent 0.35s ease` on `body` wedged the accent: in Chrome 144 a
-  CSSTransition on the registered custom property `--accent` starts but never
-  progresses, so `getComputedStyle(body).--accent` stayed at the default and the
-  per-mode neon accents never applied. Removed the custom-property transition;
-  the per-element `transition: color/border-color/box-shadow ...` rules already
-  animate the accent shift, so the visual effect is preserved.
+- `transition: --accent 0.35s ease` on `body` was removed: transitioning a
+  registered custom property on `body` is a known source of wedged values in
+  Chromium. The per-element `transition: color/border-color/box-shadow ...`
+  rules already animate the accent shift, so the visual effect is preserved.
+- Root cause of the "stuck accent" symptom was actually the **headless
+  verification environment**, not the CSS: pinchtab's headless Chrome does not
+  advance the CSS animation clock until a frame is produced. Every
+  `CSSTransition` (and the infinite `arrowPulse` keyframe) sat at
+  `currentTime: 0` with `playState: running`, so computed styles read the
+  transition's *start* value forever. Forcing a frame (any `pinchtab
+  screenshot`) jumped the clock to wall time, the transitions completed, and
+  the accent resolved correctly. **Real browsers produce frames continuously,
+  so this never affects end users.** Verification rule of thumb: after a
+  mode switch, take a screenshot (or otherwise force a frame) *before*
+  reading computed styles, or the values will look "stuck".
+
+## Whole-page mode cue (follow-up)
+- The hand-pointer hint icon (`fa-hand-pointer`) now points **down** at the
+  mode buttons: `.mode-instruction .fa-hand-pointer { transform: rotate(135deg); }`
+  (the glyph aims up-right by default; 135° turns it straight down).
+- Selecting a mode now re-tints the **whole page**, not just small accents, so
+  the active mode is obvious at a glance:
+  - `body` background radial glows are driven by `var(--accent)`
+    (neutral gray when no mode is selected).
+  - `.container` frame border + outer glow light up in the accent, and a
+    `::before` neon line appears along the top edge.
+  - `.mode-instruction` bar border + background tint to the accent.
+  - `.text-panel textarea` borders pick up a subtle accent tint.
+  - `.status-bar strong` (the mode name) is colored with the accent.
+  - The instruction line text swaps per mode (e.g. "โหมด Key Translator —
+    เข้ารหัส/ถอดรหัสด้วยคีย์เวิรด์"), driven by `updateUI()` in script.js.
+- All of it is derived from the single `--accent` custom property set by
+  `body[data-mode]`, so it stays in sync with the existing per-mode neon
+  system and animates via the same per-element transitions.
+- `sw.js` cache bumped `v2.0 → v2.1` so returning PWA users pick up the new
+  assets on next load.
