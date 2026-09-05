@@ -663,3 +663,88 @@ body[data-mode] .text-panel textarea {
   .container { padding: 16px 12px; gap: 15px; }
   textarea { font-size: 0.9rem; height: 110px; }
 }
+
+
+/* ============================================================
+   Cipher Vault mobile pass — presentation only
+   Keeps all existing IDs and JavaScript contracts intact.
+   ============================================================ */
+:root {
+  --bg: #070b12;
+  --panel: rgba(13, 22, 34, 0.88);
+  --panel-border: rgba(109, 143, 177, 0.24);
+  --text: #edf7ff;
+  --muted: #8da4b8;
+  --security: #58d8ff;
+  --security-soft: rgba(88, 216, 255, 0.10);
+  --security-glow: rgba(88, 216, 255, 0.24);
+}
+body {
+  background:
+    radial-gradient(900px 420px at 50% -12%, rgba(40, 144, 190, .20), transparent 66%),
+    radial-gradient(700px 420px at 100% 100%, rgba(41, 89, 150, .16), transparent 68%),
+    var(--bg);
+}
+body::before { opacity: .55; background-size: 28px 28px; }
+.container {
+  max-width: 760px;
+  border-color: rgba(88, 216, 255, .18);
+  background: linear-gradient(145deg, rgba(14, 26, 40, .94), rgba(7, 13, 22, .94));
+}
+.app-header { padding-bottom: 2px; }
+.brand-lockup { gap: 11px; }
+.brand-mark { font-size: 2rem; }
+.brand-subtitle::after { content: '  •  LOCAL / PRIVATE'; color: var(--security); }
+.mode-instruction { font-family: var(--mono); }
+.mode-btn, .keyword-section, .text-panel > label, .status-bar { border-color: var(--panel-border); }
+.mode-btn.active { box-shadow: 0 0 0 1px var(--accent), 0 8px 24px var(--accent-glow); }
+.text-panel textarea { box-shadow: inset 0 0 0 1px rgba(88, 216, 255, .03); }
+.text-panel > label span { color: var(--security); }
+.output-panel textarea { background: rgba(4, 12, 20, .72); }
+button, input, textarea { -webkit-tap-highlight-color: transparent; }
+button:focus-visible, input:focus-visible, textarea:focus-visible, a:focus-visible { outline: 2px solid var(--security); outline-offset: 3px; }
+@media (max-width: 640px) {
+  html { min-height: 100%; }
+  body { min-height: 100dvh; padding: max(8px, env(safe-area-inset-top)) 8px max(12px, env(safe-area-inset-bottom)); overflow-x: hidden; }
+  .container { width: 100%; max-width: 520px; margin: 0 auto; padding: 12px 10px 10px; gap: 9px; border-radius: 18px; min-height: calc(100dvh - 20px); }
+  .app-header { min-height: 40px; }
+  .brand-mark { font-size: 1.7rem; }
+  .brand-lockup h1 { font-size: 1.35rem; letter-spacing: .01em; }
+  .brand-subtitle { font-size: .56rem; }
+  .icon-btn { width: 40px; height: 40px; }
+  .mode-instruction { min-height: 34px; padding: 7px 9px; font-size: .68rem; line-height: 1.25; }
+  .mode-buttons { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; }
+  .mode-btn { min-height: 50px; padding: 6px 3px; align-items: center; justify-content: center; gap: 3px; border-radius: 10px; text-align: center; }
+  .mode-btn > i { margin: 0; font-size: .9rem; }
+  .mode-btn span { width: 100%; }
+  .mode-btn strong { display: block; font-size: .65rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .mode-btn small { display: none; }
+  .keyword-section { min-height: 40px; padding: 6px 8px; gap: 7px; }
+  .keyword-section label { font-size: .67rem; }
+  .keyword-section input { height: 30px; padding: 5px 8px; font-size: .75rem; }
+  .io-section { display: flex; flex-direction: column; gap: 7px; }
+  .text-panel > label { margin: 0; padding: 6px 8px; border: 1px solid var(--panel-border); border-bottom: 0; border-radius: 10px 10px 0 0; background: rgba(255,255,255,.025); }
+  .text-panel textarea { height: 112px; min-height: 112px; max-height: 34dvh; border-radius: 0 0 10px 10px; padding: 9px; font-size: .78rem; line-height: 1.45; resize: vertical; }
+  .transform-arrow { display: flex; order: 2; min-height: 15px; font-size: .56rem; gap: 5px; }
+  .input-panel { order: 1; }
+  .output-panel { order: 3; }
+  .inline-copy { right: 7px; bottom: 7px; min-height: 34px; padding: 6px 9px; font-size: .65rem; }
+  .action-buttons { justify-content: stretch; gap: 6px; }
+  .ghost-btn { flex: 1; justify-content: center; min-height: 42px; padding: 8px 10px; font-size: .7rem; }
+  .support-trigger { min-height: 34px; padding: 5px 10px; font-size: .65rem; }
+  .support-trigger span { font-size: .85rem; }
+  .support-trigger .support-text { font-size: .65rem; }
+  .status-bar { min-height: 28px; padding: 6px 7px 0; font-size: .58rem; }
+  .video-link { font-size: .62rem; }
+  .page-footer { display: none; }
+  .modal { padding: 10px 8px max(10px, env(safe-area-inset-bottom)); align-items: flex-end; }
+  .modal-content { width: 100%; max-width: 520px; max-height: calc(100dvh - 20px); overflow-y: auto; margin: 0 auto; padding: 22px 16px max(18px, env(safe-area-inset-bottom)); border-radius: 18px 18px 12px 12px; }
+  .modal-content h2 { font-size: 1.05rem; margin-bottom: 16px; }
+  .close-btn { top: 13px; right: 15px; padding: 5px; }
+  .dynamic-amount-wrapper { max-width: none; }
+  .dynamic-amount-wrapper button { min-height: 44px; }
+  .toast-notification { bottom: max(18px, env(safe-area-inset-bottom)); max-width: 88vw; white-space: normal; text-align: center; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}

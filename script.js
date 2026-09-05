@@ -104,7 +104,7 @@ function updateUI() {
     if(modeInstructionText) {
         const instructions = {
             xor: 'โหมด Key Translator — เข้ารหัส/ถอดรหัสด้วยคีย์เวิรด์',
-            emoji: 'โหมด Emoji Code — แปลงข้อความเป็นอีมอยี',
+            emoji: 'Emoji Mode — Encode / Decode emoji',
             wordspinner: 'โหมด Word Spinner — สลับตำแหน่งตัวอักษร'
         };
         modeInstructionText.textContent = instructions[currentMode] || 'เลือกโหมดที่ต้องการ แล้วเริ่มแปลงข้อความได้เลย';
