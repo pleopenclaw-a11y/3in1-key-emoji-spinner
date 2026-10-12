@@ -18,6 +18,10 @@ const currentModeLabel = document.getElementById('currentModeLabel');
 const modeInstructionText = document.getElementById('modeInstructionText');
 
 // Help Modal Elements
+const themeBtn = document.getElementById('themeBtn');
+const themeModal = document.getElementById('themeModal');
+const themeCloseBtn = document.getElementById('themeCloseBtn');
+const themeOptions = document.querySelectorAll('.theme-option');
 const helpBtn = document.getElementById('helpBtn');
 const helpModal = document.getElementById('helpModal');
 const closeBtn = helpModal.querySelector('.close-btn');
@@ -82,9 +86,31 @@ function createPRNG(seed) { const seedHash = [...seed].reduce((hash, ch) => (has
 const pigpenEmojis = ['😀','😁','😂','🤣','😃','😄','😅','😆','😉','😊', '😋','😎','😍','😘','😗','😙','😚','🙂','🤗','🤩','🤔','🤨','😐','😑','😶','🙄','😏','😣','😥','😮', '🤐','😯','😪','😫','😴','😌','😛','😜','😝','🤤','😒','😓','😔','😕','🙃','🤑','😲','☹️','🙁','😖', '😞','😟','😤','😢','😭','😦','😧','😨','😩','🤯','😬','😰','😱','🥵','🥶','😳','🤪','😵','😡','😠', '🤬','😷','🤒','🤕','🤢','🤮','🤧','😇','🥰','🤠','🤡','🥳','🥴','🥺','🤥','🤫','🤭','🧐','🤓','😈', '👿','👹','👺','💀','👻','👽','🤖','💩','😺','😸','😹','😻','😼','😽','🙀','😿','😾','🐶','🐱','🐭', '🐹','🐰','🦊','🐻','🐼','🐨','🐯','🦁','🐮','🐷','🐽','🐸','🐵','🙈','🙉','🙊','🐒','🐔','🐧','🐦', '🐤','🐣','🐥','🦆','🦅','🦉','🦇','🐺','🐗','🐴','🦄','🐝','🐛','🦋','🐌','🐞','🐜','🦗','🕷','🕸', '🦂','🐢','🐍','🦎','🦖','🦕','🐙','🦑','🦐','🦀','🐡','🐠','🐟','🐬','🐳','🐋','🦈','🐊','🐅','🐆', '🦓','🦍','🐘','🦏','🐪','🐫','🦒','🦘','🐃','🐂','🐄','🐎','🐖','🐏','🐑','🐐','🐓','🦃','🕊','🐇', '🐁','🐀','🐿','🦔','🐾','🐉','🐲','🌵','🎄','🌲','🌳','🌴','🌱','🌿','☘️','🍀','🎍','🎋','🍃','🍂', '🍁','🍄','🌾','💐','🌷','🌹','🥀','🌺','🌸','🌼','🌻','🌞','🌝','🌛','🌚','🌜','🌙','⭐','🌟','💫', '✨','⚡','☄️','💥','🔥','🌪','🌈','☀️','🌤','⛅','🌥','☁️','🌦','🌧','⛈','🌩','🌨','❄️','☃️','⛄', '🌬','💨','💧','💦','☔','☂️','🌊','🌫','🍏','🍎','🍐','🍊','🍋','🍌','🍉','🍇','🍓','🍈','🍒','🍑', '🥭','🍍','🥥','🥝','🍅','🍆','🥑','🥦','🥬','🥒','🌶','🌽','🥕','🥔','🍠','🥐','🍞','🥖','🥨','🧀', '🥚','🍳','🥞','🥓','🥩','🍗','🍖','🌭','🍔','🍟','🍕','🥪','🥙','🌮','🌯','🥗','🥘','🍝','🍜','🍲', '🍥','🥠','🍣','🍱','🍛','🍚','🍙','🍘','🍢','🍡','🍧','🍨','🍦','🥧','🧁','🍰','🎂','🍮','🍭','🍬', '🍫','🍿','🍩','🍪','🌰','🥜','🍯','🥛','🍼','☕','🍵','🥤','🍶','🍺','🍻','🥂','🍷','🥃','🍸','🍹', '🍾','🥄','🍴','🍽','🥣','🥡','🥢','🚗','🚕','🚙','🚌','🚎','🏎','🚓','🚑','🚒','🚐','🚚','🚛','🚜', '🛴','🚲','🛵','🏍','🚨','🚔','🚍','🚘','🚖','🚡','🚠','🚟','🚃','🚋','🚞','🚝','🚄','🚅','🚈','🚂', '🚆','🚇','🚊','🚉','✈️','🛫','🛬','🛩','💺','🛰','🚀','🛸','🚁','🛶','⛵','🚤','🛥','🛳','⛴','🚢', '⚓','🚧','⛽','🚏','🚦','🚥','🗺','🗿','🗽','⛲','🗼','🏰','🏯','🎡','🎢','🎠','⛱','🏖','🏝','🌋', '⛰','🏔','🗻','🏕','⛺','🏠','🏡','🏘','🏚','🏗','🏭','🏢','🏬','🏣','🏤','🏥','🏦','🏨','🏪','🏫', '🏩','💒','🏛','⛪','🕌','🕍','🕋','⛩','🛤','🛣','🗾','🎑','🏞','🌅','🌄','🌠','🎇','🎆','🌇','🌆', '🏙','🌃','🌌','🌉','🌁'];
 const charToEmoji = new Map(); const emojiToChar = new Map();
 for (let i = 0; i < ALLOWED_CHARS.length && i < pigpenEmojis.length; i++) { charToEmoji.set(ALLOWED_CHARS[i], pigpenEmojis[i]); emojiToChar.set(pigpenEmojis[i], ALLOWED_CHARS[i]); }
-function encodeEmoji(text) { return [...text].map(ch => charToEmoji.get(ch) || ch).join(''); }
-function decodeEmoji(text) { const emojiArray = Array.from(text); return emojiArray.map(emoji => emojiToChar.get(emoji) || emoji).join(''); }
-function isAllEmoji(str) { const emojiArray = Array.from(str); return emojiArray.every(emoji => emojiToChar.has(emoji) || /\s/.test(emoji)); }
+// Use grapheme clusters rather than Unicode code points: some mapped emoji contain
+// variation selectors (for example ☹️) and must stay intact as a single token.
+const emojiSegmenter = typeof Intl !== 'undefined' && Intl.Segmenter
+    ? new Intl.Segmenter(undefined, { granularity: 'grapheme' })
+    : null;
+function splitEmojiText(text) {
+    return emojiSegmenter
+        ? Array.from(emojiSegmenter.segment(text), part => part.segment)
+        : Array.from(text).reduce((clusters, char) => {
+            if (/^[\uFE0E\uFE0F\u{E0100}-\u{E01EF}]$/u.test(char) && clusters.length) {
+                clusters[clusters.length - 1] += char;
+            } else {
+                clusters.push(char);
+            }
+            return clusters;
+        }, []);
+}
+function encodeEmoji(text) { return [...text].map(char => charToEmoji.get(char) || char).join(''); }
+function decodeEmoji(text) { return splitEmojiText(text).map(emoji => emojiToChar.get(emoji) || emoji).join(''); }
+function isAllEmoji(str) {
+    const clusters = splitEmojiText(str);
+    return clusters.some(token => emojiToChar.has(token)) && clusters.every(token =>
+        emojiToChar.has(token) || /^\s+$/u.test(token) || !charToEmoji.has(token)
+    );
+}
 function encodeWordspinner(text) { const chars = [...text]; const seed = generateShortSeed(); const prng = createPRNG(seed); const positions = chars.map((_, i) => i).sort(() => prng() - 0.5); const shuffledText = positions.map(pos => chars[pos]).join(''); return `${DEFAULT_PREFIX}${seed}${shuffledText}`; }
 function decodeWordspinner(text) { if (!text.startsWith(DEFAULT_PREFIX) || text.length < (DEFAULT_PREFIX.length + SEED_LENGTH)) return text; const seed = text.slice(DEFAULT_PREFIX.length, DEFAULT_PREFIX.length + SEED_LENGTH); const cipherText = text.slice(DEFAULT_PREFIX.length + SEED_LENGTH); if (cipherText.length === 0) return ''; const prng = createPRNG(seed); const positions = [...Array(cipherText.length).keys()].sort(() => prng() - 0.5); const reversePositions = new Array(cipherText.length); positions.forEach((shuffledIndex, originalIndex) => { reversePositions[shuffledIndex] = originalIndex; }); return reversePositions.map(pos => cipherText[pos]).join(''); }
 function isLikelyWordspinner(text) { return text.startsWith(DEFAULT_PREFIX) && text.length >= (DEFAULT_PREFIX.length + SEED_LENGTH); }
@@ -212,6 +238,31 @@ if(swapButton) {
         processCurrentMode();
     });
 }
+
+// ======== Theme Settings (presentation only) ========
+function applyTheme(theme) {
+    const selectedTheme = ['terminal', 'claude', 'codex'].includes(theme) ? theme : 'terminal';
+    document.body.dataset.theme = selectedTheme;
+    themeOptions.forEach(option => {
+        option.setAttribute('aria-checked', String(option.dataset.theme === selectedTheme));
+    });
+    localStorage.setItem('keykes-theme', selectedTheme);
+}
+function showThemeModal() {
+    if (themeModal) themeModal.style.display = 'block';
+}
+function closeThemeModal() {
+    if (themeModal) themeModal.style.display = 'none';
+}
+if (themeBtn) themeBtn.addEventListener('click', showThemeModal);
+if (themeCloseBtn) themeCloseBtn.addEventListener('click', closeThemeModal);
+themeOptions.forEach(option => option.addEventListener('click', () => {
+    applyTheme(option.dataset.theme);
+    closeThemeModal();
+    const themeLabels = { terminal: 'Default CLI Terminal', claude: 'Claude Code', codex: 'Codex CLI' };
+    showToast(`✅ Theme: ${themeLabels[option.dataset.theme]}`);
+}));
+applyTheme(localStorage.getItem('keykes-theme') || 'terminal');
 
 // ======== Modal Logic (Help & Donate) ========
 
